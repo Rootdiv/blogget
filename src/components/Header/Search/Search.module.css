@@ -19,7 +19,7 @@
   width: 20px;
   height: 20px;
   background-color: transparent;
-  border: 0;
+  border: none;
   right: 7px;
   top: 50%;
   transform: translateY(-50%);
