@@ -37,12 +37,7 @@ export const Tabs = () => {
       window.removeEventListener('resize', debounceResize);
     };
   }, []);
-  // const addItem = () => {
-  //   setList(list.concat(assignId({ value: 'Новый пост' })));
-  // };
-  // const handelClick = id => {
-  //   setList(list.filter(item => item.id !== id));
-  // };
+
   return (
     <div className={style.container}>
       {isDropdown && (
@@ -53,10 +48,10 @@ export const Tabs = () => {
         </div>
       )}
       {(isDropdownOpen || !isDropdown) && (
-        <ul className={style.list} onClick={isDropdown ? () => setIsDropdownOpen(false) : undefined}>
+        <ul className={style.list} onClick={isDropdown ? () => setIsDropdownOpen(false) : null}>
           {LIST.map(({ value, id, Icon }) => (
             <li className={style.item} key={id}>
-              <Text As="button" className={style.btn} onClick={isDropdown ? () => setTextBtn(value) : undefined}>
+              <Text As="button" className={style.btn} onClick={isDropdown ? () => setTextBtn(value) : null}>
                 {value} {Icon && <Icon width={25} height={25} />}
               </Text>
             </li>
