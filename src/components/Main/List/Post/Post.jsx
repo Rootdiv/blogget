@@ -8,14 +8,14 @@ import DeleteBtn from './DeleteBtn';
 import Content from './Content';
 
 export const Post = ({ postData }) => {
-  const { title, author, ups, date } = postData;
+  const { thumbnail, title, author, ups, created } = postData;
 
   return (
     <ul className={style.post}>
-      <Image title={title} />
+      <Image thumbnail={thumbnail} title={title} />
       <Content title={title} author={author} />
       <Rating ups={ups} />
-      <Time date={date} />
+      <Time date={created} />
       <DeleteBtn />
     </ul>
   );
