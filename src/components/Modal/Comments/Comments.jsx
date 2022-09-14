@@ -6,7 +6,7 @@ import formatDate from 'utils/formatDate';
 
 export const Comments = ({ comments }) => (
   <ul className={style.list}>
-    {comments ? (
+    {comments.length ? (
       comments.map(({ id, author, body, created: date }) => {
         if (body) {
           // Если комментариев много, то выводим только те где есть текст.
@@ -29,6 +29,6 @@ export const Comments = ({ comments }) => (
   </ul>
 );
 
-Comments.propType = {
+Comments.propTypes = {
   comments: PropTypes.array,
 };
