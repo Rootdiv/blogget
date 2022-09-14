@@ -10,5 +10,5 @@ export const Time = ({ date }) => (
 );
 
 Time.propTypes = {
-  date: PropTypes.number,
+  date: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 };
