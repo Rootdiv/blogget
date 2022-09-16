@@ -37,6 +37,7 @@
   --greyBF: hsl(0, 0%, 75%);
   --grey99: hsl(0, 0%, 60%);
   --grey66: hsl(0, 0%, 40%);
+  --grey33: hsl(0, 0%, 20%);
 }
 
 html {
@@ -60,7 +61,8 @@ body {
   color: var(--black);
 }
 
-img {
+img,
+svg {
   max-width: 100%;
   height: auto;
 }
