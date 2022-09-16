@@ -1,20 +1,19 @@
 import Header from './components/Header';
 import Main from './components/Main';
 
-import { useToken } from 'hooks/useToken';
-import { TokenContextProvider } from 'context/tokenContext';
 import { AuthContextProvider } from 'context/authContext';
 
-function App() {
-  const [token, delToken] = useToken('');
+import { Provider } from 'react-redux';
+import { store } from './store';
 
+function App() {
   return (
-    <TokenContextProvider token={token} delToken={delToken}>
+    <Provider store={store}>
       <AuthContextProvider>
         <Header />
         <Main />
       </AuthContextProvider>
-    </TokenContextProvider>
+    </Provider>
   );
 }
 

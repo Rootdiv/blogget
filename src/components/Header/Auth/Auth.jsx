@@ -6,10 +6,11 @@ import { Text } from 'UI/Text';
 
 import { urlAuth } from 'api/auth';
 import { authContext } from 'context/authContext';
-import { tokenContext } from 'context/tokenContext';
+import { useDispatch } from 'react-redux';
+import { deleteToken } from 'store';
 
 export const Auth = () => {
-  const { delToken } = useContext(tokenContext);
+  const dispatch = useDispatch();
   const [showLogout, setShowLogout] = useState(false);
   const { auth, clearAuth } = useContext(authContext);
 
@@ -18,8 +19,9 @@ export const Auth = () => {
   };
 
   const logout = () => {
-    delToken();
+    dispatch(deleteToken());
     clearAuth();
+    location.href = '/';
   };
 
   return (
@@ -29,7 +31,7 @@ export const Auth = () => {
           <button className={style.btn} onClick={getOut}>
             <img src={auth.img} title={auth.name} alt={`Аватар ${auth.name}`} className={style.img} />
           </button>
-          {logout && (
+          {showLogout && (
             <button className={style.logout} onClick={logout}>
               Выйти
             </button>
