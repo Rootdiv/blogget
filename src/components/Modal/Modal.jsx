@@ -10,12 +10,12 @@ import { useCommentsData } from 'hooks/useCommentsData';
 import { Text } from 'UI/Text';
 import FormComment from './FormComment';
 import Comments from './Comments';
+import Preloader from 'UI/Preloader';
 
 export const Modal = ({ id, closeModal }) => {
   const overlayRef = useRef(null);
   const closeRef = useRef(null);
-  const [commentsData] = useCommentsData(id);
-  const [post, comments] = commentsData;
+  const [post, comments, status] = useCommentsData(id);
 
   const handleClick = event => {
     const target = event.target;
@@ -44,9 +44,17 @@ export const Modal = ({ id, closeModal }) => {
   return ReactDOM.createPortal(
     <div className={style.overlay} ref={overlayRef}>
       <div className={style.modal}>
-        {post ? (
+        {status === 'loading' && (
+          <Preloader color={'#cc6633'} size={150} />
+        )}
+        {status === 'error' && (
+          <Text As="p" medium dsize={18}>
+            Произошла ошибка загрузки поста.
+          </Text>
+        )}
+        {status === 'loaded' && (
           <>
-            <Text As="h2" tsize={24} className={style.title}>
+            <Text As="h2" className={style.title} size={22} tsize={24}>
               {post.title}
             </Text>
             <div className={style.content}>
@@ -56,13 +64,8 @@ export const Modal = ({ id, closeModal }) => {
               {post.author}
             </Text>
             <FormComment />
-
             <Comments comments={comments} />
           </>
-        ) : (
-          <Text As="p" bold dsize={18}>
-            Загрузка...
-          </Text>
         )}
         <button className={style.close} ref={closeRef}>
           <CloseIcon />

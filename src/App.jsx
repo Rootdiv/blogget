@@ -1,21 +1,20 @@
 import Header from './components/Header';
 import Main from './components/Main';
 
-import { useToken } from 'hooks/useToken';
-import { TokenContextProvider } from 'context/tokenContext';
-import { AuthContextProvider } from 'context/authContext';
+import { useDispatch } from 'react-redux';
+import { updateToken } from './store/tokenReducer';
+import { getToken } from './api/token';
 
-function App() {
-  const [token, delToken] = useToken('');
+const App = () => {
+  const dispatch = useDispatch();
+  dispatch(updateToken(getToken()));
 
   return (
-    <TokenContextProvider token={token} delToken={delToken}>
-      <AuthContextProvider>
-        <Header />
-        <Main />
-      </AuthContextProvider>
-    </TokenContextProvider>
+    <>
+      <Header />
+      <Main />
+    </>
   );
-}
+};
 
 export default App;

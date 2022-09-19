@@ -1,16 +1,21 @@
 import style from './FormComment.module.css';
-import { useState, useContext, useRef, useEffect } from 'react';
-import { authContext } from 'context/authContext';
+import { useState, useRef, useEffect } from 'react';
+
 import { Text } from 'UI/Text';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateComment } from 'store/commentReducer';
+import { useAuth } from 'hooks/useAuth';
 
 export const FormComment = () => {
+  const value = useSelector(state => state.commentReducer.comment);
+  const dispatch = useDispatch();
   const [showForm, setShowForm] = useState(false);
-  const { auth } = useContext(authContext);
-  const textareaRef = useRef(null);
+  const [auth] = useAuth();
+  const refTextarea = useRef(null);
 
   useEffect(() => {
     if (showForm) {
-      textareaRef.current.focus();
+      refTextarea.current.focus();
     }
   }, [showForm]);
 
@@ -18,9 +23,13 @@ export const FormComment = () => {
     setShowForm(true);
   };
 
+  const handleChange = event => {
+    dispatch(updateComment(event.target.value));
+  };
+
   const commentSubmit = event => {
     event.preventDefault();
-    console.log(textareaRef.current.value);
+    console.log(value);
   };
 
   return showForm ? (
@@ -28,7 +37,7 @@ export const FormComment = () => {
       <Text As="h3" size={14} tsize={18}>
         {auth.name}
       </Text>
-      <textarea className={style.textarea} ref={textareaRef}></textarea>
+      <textarea className={style.textarea} value={value} onChange={handleChange} ref={refTextarea}></textarea>
       <button className={style.btn}>Отправить</button>
     </form>
   ) : (
