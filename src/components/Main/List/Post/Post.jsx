@@ -11,13 +11,13 @@ export const Post = ({ postData }) => {
   const { id, thumbnail, title, author, ups, created } = postData;
 
   return (
-    <ul className={style.post}>
+    <li className={style.post}>
       <Image thumbnail={thumbnail} title={title} />
       <Content id={id} title={title} author={author} />
       <Rating ups={ups} />
       <Time date={created} />
       <DeleteBtn />
-    </ul>
+    </li>
   );
 };
 
