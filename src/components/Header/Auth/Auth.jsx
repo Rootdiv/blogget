@@ -9,11 +9,12 @@ import { useAuth } from 'hooks/useAuth';
 import { useDispatch } from 'react-redux';
 import { deleteToken } from 'store/tokenReducer';
 import Preloader from 'UI/Preloader';
+import Notify from './Notify';
 
 export const Auth = () => {
   const dispatch = useDispatch();
   const [showLogout, setShowLogout] = useState(false);
-  const [auth, loading, clearAuth] = useAuth();
+  const [auth, loading, clearAuth, error] = useAuth();
 
   const getOut = () => {
     setShowLogout(!showLogout);
@@ -27,7 +28,8 @@ export const Auth = () => {
 
   return (
     <div className={style.container}>
-      {loading ? (
+      {error && <Notify />}
+      {(loading && !error) ? (
         <Preloader color={'#cc6633'} size={40} />
       ) : auth.name ? (
         <>
