@@ -13,6 +13,7 @@ export const List = () => {
   const posts = useSelector(state => state.posts.posts);
   // Получем isLast отключения прелодаера
   const isLast = useSelector(state => state.posts.isLast);
+  const counter = useSelector(state => state.posts.counter);
   const endList = useRef(null);
   const dispatch = useDispatch();
   const { page } = useParams();
@@ -22,6 +23,7 @@ export const List = () => {
   }, [page]);
 
   useEffect(() => {
+    if (counter > 2) return;
     if (!posts.length && !loading && isLast) return;
 
     const observer = new IntersectionObserver((entries) => {
@@ -39,7 +41,11 @@ export const List = () => {
         observer.unobserve(endList.current);
       }
     };
-  }, [endList.current]);
+  }, [endList.current, counter]);
+
+  const moreLoad = () => {
+    dispatch(postsRequestAsync());
+  };
 
   return (
     <>
@@ -48,6 +54,7 @@ export const List = () => {
         <li ref={endList} className={style.end} />
         {!isLast && (loading || posts.length > 0) && <Preloader color='#56af27' size={250} />}
       </ul>
+      {(!isLast && counter > 2) && <button className={style.btn} onClick={moreLoad}>Загрузить ещё</button>}
       <Outlet />
     </>
   );
