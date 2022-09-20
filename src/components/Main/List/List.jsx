@@ -5,6 +5,7 @@ import Post from './Post';
 import Preloader from 'UI/Preloader';
 import { useDispatch, useSelector } from 'react-redux';
 import { postsRequestAsync } from 'store/posts/postsAction';
+import { useParams, Outlet } from 'react-router-dom';
 
 export const List = () => {
   // Получем loading для показа прелодаера
@@ -14,6 +15,11 @@ export const List = () => {
   const isLast = useSelector(state => state.posts.isLast);
   const endList = useRef(null);
   const dispatch = useDispatch();
+  const { page } = useParams();
+
+  useEffect(() => {
+    dispatch(postsRequestAsync(page));
+  }, [page]);
 
   useEffect(() => {
     if (!posts.length && !loading && isLast) return;
@@ -27,13 +33,22 @@ export const List = () => {
     });
 
     observer.observe(endList.current);
+
+    return () => {
+      if (endList.current) {
+        observer.unobserve(endList.current);
+      }
+    };
   }, [endList.current]);
 
   return (
-    <ul className={style.list}>
-      {posts.map(({ data: postData }) => (<Post key={postData.id} postData={postData} />))}
-      <li ref={endList} className={style.end} />
-      {!isLast && (loading || posts.length > 0) && <Preloader color='#56af27' size={250} />}
-    </ul>
+    <>
+      <ul className={style.list}>
+        {posts.map(({ data: postData }) => (<Post key={postData.id} postData={postData} />))}
+        <li ref={endList} className={style.end} />
+        {!isLast && (loading || posts.length > 0) && <Preloader color='#56af27' size={250} />}
+      </ul>
+      <Outlet />
+    </>
   );
 };

@@ -1,6 +1,4 @@
 import style from './Modal.module.css';
-import PropTypes from 'prop-types';
-
 import { ReactComponent as CloseIcon } from './img/close.svg';
 
 import ReactDOM from 'react-dom';
@@ -11,8 +9,11 @@ import { Text } from 'UI/Text';
 import FormComment from './FormComment';
 import Comments from './Comments';
 import Preloader from 'UI/Preloader';
+import { useNavigate, useParams } from 'react-router-dom';
 
-export const Modal = ({ id, closeModal }) => {
+export const Modal = () => {
+  const { id, page } = useParams();
+  const navigation = useNavigate();
   const overlayRef = useRef(null);
   const closeRef = useRef(null);
   const [post, comments, status] = useCommentsData(id);
@@ -20,15 +21,15 @@ export const Modal = ({ id, closeModal }) => {
   const handleClick = event => {
     const target = event.target;
     if (target === overlayRef.current) {
-      closeModal();
+      navigation(`/category/${page}`);
     } else if (target.closest(`.${style.close}`) === closeRef.current) {
-      closeModal();
+      navigation(`/category/${page}`);
     }
   };
 
   const handleKeyClose = event => {
     if (event.key === 'Escape') {
-      closeModal();
+      navigation(`/category/${page}`);
     }
   };
 
@@ -74,9 +75,4 @@ export const Modal = ({ id, closeModal }) => {
     </div>,
     document.getElementById('modal-root'),
   );
-};
-
-Modal.propTypes = {
-  id: PropTypes.string,
-  closeModal: PropTypes.func,
 };
