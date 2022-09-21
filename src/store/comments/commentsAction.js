@@ -41,7 +41,7 @@ export const commentsRequestAsync = id => (dispatch, getState) => {
         },
       ] }) => {
         const comments = children.map(item => item.data);
-        dispatch(commentsRequestSuccess([post, comments]));
+        dispatch(commentsRequestSuccess({ post, comments }));
       },
     )
     .catch(err => {

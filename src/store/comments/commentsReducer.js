@@ -19,8 +19,8 @@ export const commentsReducer = (state = initialState, action) => {
       return {
         ...state,
         status: 'loaded',
-        post: action.data[0],
-        comments: action.data[1],
+        post: action.data.post,
+        comments: action.data.comments,
         error: '',
       };
     case COMMENTS_REQUEST_ERROR:
