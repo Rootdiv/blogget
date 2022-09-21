@@ -1,33 +1,41 @@
 import style from './List.module.css';
-import { useEffect, useRef } from 'react';
-import { useBestPosts } from 'hooks/useBestPost';
+import { useEffect, useRef, useState } from 'react';
 import Post from './Post';
 import Preloader from 'UI/Preloader';
 import { useDispatch, useSelector } from 'react-redux';
 import { postsRequestAsync } from 'store/posts/postsAction';
 import { useParams, Outlet } from 'react-router-dom';
+import { postsSlice } from 'store/posts/postsSlice';
 
 export const List = () => {
+  const token = useSelector(state => state.tokenReducer.token);
   // Получем loading для показа прелодаера
-  const [, loading] = useBestPosts();
+  const loading = useSelector(state => state.posts.loading);
   const posts = useSelector(state => state.posts.posts);
   // Получем isLast отключения прелодаера
   const isLast = useSelector(state => state.posts.isLast);
   const counter = useSelector(state => state.posts.counter);
+  const [showButton, setShowButton] = useState(false);
   const endList = useRef(null);
   const dispatch = useDispatch();
   const { page } = useParams();
 
   useEffect(() => {
-    dispatch(postsRequestAsync(page));
+    dispatch(postsSlice.actions.changePage(page));
+    if (token) {
+      dispatch(postsRequestAsync(page));
+    }
   }, [page]);
 
   useEffect(() => {
-    if (counter > 2) return;
-    if (!posts.length && !loading && isLast) return;
+    if (counter > 2) {
+      setShowButton(true);
+      return;
+    }
+    if (!posts.length && isLast) return;
 
     const observer = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
+      if (entries[0].isIntersecting && posts.length) {
         dispatch(postsRequestAsync());
       }
     }, {
@@ -45,6 +53,7 @@ export const List = () => {
 
   const moreLoad = () => {
     dispatch(postsRequestAsync());
+    setShowButton(false);
   };
 
   return (
@@ -52,9 +61,9 @@ export const List = () => {
       <ul className={style.list}>
         {posts.map(({ data: postData }) => (<Post key={postData.id} postData={postData} />))}
         <li ref={endList} className={style.end} />
-        {!isLast && (loading || posts.length > 0) && <Preloader color='#56af27' size={250} />}
+        {(!isLast && (loading || posts.length > 0)) && <Preloader color='#56af27' size={250} />}
       </ul>
-      {(!isLast && counter > 2) && <button className={style.btn} onClick={moreLoad}>Загрузить ещё</button>}
+      {(!isLast && showButton) && <button className={style.btn} onClick={moreLoad}>Загрузить ещё</button>}
       <Outlet />
     </>
   );
