@@ -22,6 +22,7 @@ export const List = () => {
 
   useEffect(() => {
     dispatch(postsSlice.actions.changePage(page));
+    setShowButton(false);
     if (token) {
       dispatch(postsRequestAsync(page));
     }
@@ -29,13 +30,13 @@ export const List = () => {
 
   useEffect(() => {
     if (counter > 2) {
-      setShowButton(true);
+      !isLast && setShowButton(true);
       return;
     }
     if (!posts.length && isLast) return;
 
     const observer = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting && posts.length) {
+      if (entries[0].isIntersecting && token) {
         dispatch(postsRequestAsync());
       }
     }, {
