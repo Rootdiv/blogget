@@ -20,6 +20,9 @@
     "react-spinners": "^0.13.4",
     "web-vitals": "^2.1.0"
   },
+  "resolutions": {
+    "open": "7.4.2"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
