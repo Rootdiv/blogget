@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import Post from './Post';
 import Preloader from 'UI/Preloader';
 import { useDispatch, useSelector } from 'react-redux';
-import { postsRequestAsync } from 'store/posts/postsAction';
+import { postsRequest } from 'store/posts/postsAction';
 import { useParams, Outlet } from 'react-router-dom';
 import { postsSlice } from 'store/posts/postsSlice';
 
@@ -21,10 +21,11 @@ export const List = () => {
   const { page } = useParams();
 
   useEffect(() => {
+    dispatch(postsRequest(token));
     dispatch(postsSlice.actions.changePage(page));
     setShowButton(false);
     if (token) {
-      dispatch(postsRequestAsync(page));
+      // dispatch(postsRequestAsync(page));
     }
   }, [page]);
 
@@ -37,7 +38,7 @@ export const List = () => {
 
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting && token) {
-        dispatch(postsRequestAsync());
+        // dispatch(postsRequestAsync());
       }
     }, {
       rootMargin: '50px',
@@ -53,7 +54,7 @@ export const List = () => {
   }, [endList.current, counter]);
 
   const moreLoad = () => {
-    dispatch(postsRequestAsync());
+    // dispatch(postsRequestAsync());
     setShowButton(false);
   };
 
