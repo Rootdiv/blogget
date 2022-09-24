@@ -21,11 +21,10 @@ export const List = () => {
   const { page } = useParams();
 
   useEffect(() => {
-    dispatch(postsRequest(token));
     dispatch(postsSlice.actions.changePage(page));
     setShowButton(false);
     if (token) {
-      // dispatch(postsRequestAsync(page));
+      dispatch(postsRequest(page));
     }
   }, [page]);
 
@@ -36,21 +35,21 @@ export const List = () => {
     }
     if (!posts.length && isLast) return;
 
-    const observer = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting && token) {
-        // dispatch(postsRequestAsync());
-      }
-    }, {
-      rootMargin: '50px',
-    });
+    // const observer = new IntersectionObserver((entries) => {
+    //   if (entries[0].isIntersecting && token) {
+    //     dispatch(postsRequestAsync());
+    //   }
+    // }, {
+    //   rootMargin: '50px',
+    // });
 
-    observer.observe(endList.current);
+    // observer.observe(endList.current);
 
-    return () => {
-      if (endList.current) {
-        observer.unobserve(endList.current);
-      }
-    };
+    // return () => {
+    //   if (endList.current) {
+    //     observer.unobserve(endList.current);
+    //   }
+    // };
   }, [endList.current, counter]);
 
   const moreLoad = () => {
@@ -63,7 +62,7 @@ export const List = () => {
       <ul className={style.list}>
         {posts.map(({ data: postData }) => (<Post key={postData.id} postData={postData} />))}
         <li ref={endList} className={style.end} />
-        {(!isLast && (loading || posts.length > 0)) && <Preloader color='#56af27' size={250} />}
+        {(token && (!isLast && loading)) && <Preloader color='#56af27' size={250} />}
       </ul>
       {(!isLast && showButton) && <button className={style.btn} onClick={moreLoad}>Загрузить ещё</button>}
       <Outlet />

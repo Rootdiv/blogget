@@ -1,8 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
-// import { postsRequestAsync } from './postsAction';
 
 const initialState = {
-  loading: false,
+  loading: true,
   posts: [],
   error: '',
   after: '',
@@ -20,8 +19,6 @@ export const postsSlice = createSlice({
       state.error = '';
     },
     postsRequestSuccess: (state, action) => {
-      console.log('state: ', state);
-      console.log('action: ', action);
       state.loading = false;
       state.posts = action.payload.posts;
       state.page = action.payload.page;
@@ -40,9 +37,10 @@ export const postsSlice = createSlice({
     // },
     postsRequestError: (state, action) => {
       state.loading = false;
-      state.error = action.error;
+      state.error = action.payload.error;
     },
     changePage: (state, action) => {
+      state.loading = true;
       state.posts = [];
       state.page = action.payload;
       state.after = '';
@@ -50,25 +48,6 @@ export const postsSlice = createSlice({
       state.counter = 0;
     },
   },
-  // extraReducers: {
-  //   [postsRequestAsync.pending.type]: (state) => {
-  //     state.loading = true;
-  //     state.error = '';
-  //   },
-  //   [postsRequestAsync.fulfilled.type]: (state, action) => {
-  //     state.loading = false;
-  //     state.posts = action.payload.posts;
-  //     state.page = action.payload.page;
-  //     state.error = '';
-  //     state.after = action.payload.after;
-  //     state.isLast = !action.payload.after;
-  //     state.counter = action.payload.counter;
-  //   },
-  //   [postsRequestAsync.rejected.type]: (state, action) => {
-  //     state.loading = false;
-  //     state.error = action.error;
-  //   },
-  // },
 });
 
 export default postsSlice.reducer;
