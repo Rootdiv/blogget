@@ -4,13 +4,12 @@ import { useState, useRef, useEffect } from 'react';
 import { Text } from 'UI/Text';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateComment } from 'store/commentReducer';
-import { useAuth } from 'hooks/useAuth';
 
 export const FormComment = () => {
   const value = useSelector(state => state.commentReducer.comment);
   const dispatch = useDispatch();
   const [showForm, setShowForm] = useState(false);
-  const [auth] = useAuth();
+  const auth = useSelector(state => state.auth.data);
   const refTextarea = useRef(null);
 
   useEffect(() => {
