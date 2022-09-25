@@ -7,11 +7,12 @@ export const postsRequest = page => ({
   page,
 });
 
-export const postsRequestSuccess = (page, { children, after }) => ({
+export const postsRequestSuccess = (page, counter, { children, after }) => ({
   type: POSTS_REQUEST_SUCCESS,
   posts: children,
   after,
   page,
+  counter,
 });
 
 export const postsRequestError = error => ({

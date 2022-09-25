@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  loading: true,
+  loading: false,
   posts: [],
   error: '',
   after: '',
@@ -27,20 +27,20 @@ export const postsSlice = createSlice({
       state.isLast = !action.payload.after;
       state.counter = action.payload.counter;
     },
-    // postsRequestSuccessAfter: (state, action) => {
-    //   state.loading = false;
-    //   state.posts = [...state.posts, ...action.payload.children];
-    //   state.error = '';
-    //   state.after = action.payload.after;
-    //   state.isLast = !action.payload.after;
-    //   state.counter = ++state.counter;
-    // },
+    postsRequestSuccessAfter: (state, action) => {
+      state.loading = false;
+      state.posts = [...state.posts, ...action.payload.posts];
+      state.error = '';
+      state.after = action.payload.after;
+      state.isLast = !action.payload.after;
+      state.counter = ++state.counter;
+    },
     postsRequestError: (state, action) => {
       state.loading = false;
       state.error = action.payload.error;
     },
     changePage: (state, action) => {
-      state.loading = true;
+      state.loading = false;
       state.posts = [];
       state.page = action.payload;
       state.after = '';
