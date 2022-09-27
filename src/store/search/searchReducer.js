@@ -1,4 +1,5 @@
-import { SEARCH_REQUEST,
+import {
+  SEARCH_REQUEST,
   SEARCH_REQUEST_SUCCESS,
   SEARCH_REQUEST_SUCCESS_AFTER,
   SEARCH_REQUEST_ERROR,
@@ -33,6 +34,7 @@ export const searchReducer = (state = initialState, action) => {
         error: '',
         after: action.after,
         isLast: !action.after,
+        counter: action.counter,
       };
     case SEARCH_REQUEST_SUCCESS_AFTER:
       return {
@@ -43,7 +45,7 @@ export const searchReducer = (state = initialState, action) => {
         error: '',
         after: action.after,
         isLast: !action.after,
-        counter: state.counter + 1,
+        counter: action.counter,
       };
     case SEARCH_REQUEST_ERROR:
       return {
