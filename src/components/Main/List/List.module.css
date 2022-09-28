@@ -32,3 +32,7 @@
   background-color: var(--green);
   border-color: var(--green);
 }
+
+.search {
+  margin-bottom: 25px;
+}

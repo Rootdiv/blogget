@@ -1,33 +1,21 @@
-import axios from 'axios';
-import { URL_API } from 'api/const';
-import { createAsyncThunk } from '@reduxjs/toolkit';
+export const COMMENTS_REQUEST = 'COMMENTS_REQUEST';
+const COMMENTS_REQUEST_SUCCESS = 'COMMENTS_REQUEST_SUCCESS';
+const COMMENTS_REQUEST_ERROR = 'COMMENTS_REQUEST_ERROR';
 
-export const commentsRequestAsync = createAsyncThunk('comments/fetch', (id, { getState }) => {
-  const token = getState().tokenReducer.token;
-  if (!token) return;
+export const commentsRequest = id => ({
+  type: COMMENTS_REQUEST,
+  id,
+  post: {},
+  comments: [],
+});
 
-  return axios(`${URL_API}/comments/${id}`, {
-    headers: {
-      Authorization: `bearer ${token}`,
-    },
-  })
-    .then(
-      ({ data: [
-        {
-          data: {
-            children: [{ data: post }],
-          },
-        },
-        {
-          data: { children },
-        },
-      ] }) => {
-        const comments = children.map(item => item.data);
-        return { post, comments };
-      },
-    )
-    .catch(error => {
-      console.error('Произошла ошибка: ', error);
-      return { error: error.toString() };
-    });
+export const commentsRequestSuccess = ({ post, comments }) => ({
+  type: COMMENTS_REQUEST_SUCCESS,
+  post,
+  comments,
+});
+
+export const commentsRequestError = error => ({
+  type: COMMENTS_REQUEST_ERROR,
+  error,
 });

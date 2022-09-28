@@ -1,31 +1,29 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { commentsRequestAsync } from './commentsAction';
 
 const initialState = {
   post: {},
   comments: [],
-  status: '',
+  status: 'loading',
   error: '',
 };
 
 export const commentsSlice = createSlice({
   name: 'comments',
   initialState,
-  reducers: {},
-  extraReducers: {
-    [commentsRequestAsync.pending.type]: (state) => {
-      state.error = '';
+  reducers: {
+    commentsRequest: (state) => {
       state.status = 'loading';
+      state.error = '';
     },
-    [commentsRequestAsync.fulfilled.type]: (state, action) => {
+    commentsRequestSuccess: (state, action) => {
       state.status = 'loaded';
       state.post = action.payload.post;
       state.comments = action.payload.comments;
       state.error = '';
     },
-    [commentsRequestAsync.rejected.type]: (state, action) => {
+    commentsRequestError: (state, action) => {
       state.status = 'error';
-      state.error = action.error;
+      state.error = action.payload.error;
     },
   },
 });

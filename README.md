@@ -13,3 +13,5 @@
 + [Урок 11. React Роутинг + бонус Бесконечная прокрутка. Автозагрузка 2-х страниц и далее кнопкой "Загрузить ещё"](https://github.com/Rootdiv/blogget/tree/lesson11_extra)
 + [Урок 12. Современный Redux (Redux Toolkit)](https://github.com/Rootdiv/blogget/tree/lesson12)
 + [Урок 13. Redux Saga](https://github.com/Rootdiv/blogget/tree/lesson13)
++ [Урок 13. Redux Saga. Запрос постов и комментариев через createSlice и Redux Saga](https://github.com/Rootdiv/blogget/tree/lesson13_1)
++ [Урок 13. Redux Saga. Вывод постов поиска и подгрузка результатов при прокрутке](https://github.com/Rootdiv/blogget/tree/lesson13_2)
