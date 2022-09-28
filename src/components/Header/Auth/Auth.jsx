@@ -5,22 +5,22 @@ import { ReactComponent as LoginIcon } from './img/login.svg';
 import { Text } from 'UI/Text';
 import { urlAuth } from 'api/auth';
 import { useAuth } from 'hooks/useAuth';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { deleteToken } from 'store/tokenReducer';
 import Preloader from 'UI/Preloader';
 import Notify from './Notify';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export const Auth = () => {
   const dispatch = useDispatch();
   const [showLogout, setShowLogout] = useState(false);
   const [auth, loading, clearAuth, error] = useAuth();
-  const page = useSelector(state => state.posts.page);
+  const location = useLocation();
   const navigation = useNavigate();
 
   useEffect(() => {
-    page ? navigation(`/category/${page}`) : navigation('/');
-  }, [page]);
+    location.pathname === '/auth' && navigation('/');
+  }, []);
 
   const getOut = () => {
     setShowLogout(!showLogout);

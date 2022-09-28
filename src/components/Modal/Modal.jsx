@@ -10,26 +10,28 @@ import FormComment from './FormComment';
 import Comments from './Comments';
 import Preloader from 'UI/Preloader';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 export const Modal = () => {
-  const { id, page } = useParams();
+  const { id } = useParams();
   const navigation = useNavigate();
   const overlayRef = useRef(null);
   const closeRef = useRef(null);
   const [post, comments, status] = useCommentsData(id);
+  const page = useSelector(state => state.posts.page);
 
   const handleClick = event => {
     const target = event.target;
     if (target === overlayRef.current) {
-      navigation(`/category/${page}`);
+      page ? navigation(`/category/${page}`) : navigation(`/search`);
     } else if (target.closest(`.${style.close}`) === closeRef.current) {
-      navigation(`/category/${page}`);
+      page ? navigation(`/category/${page}`) : navigation(`/search`);
     }
   };
 
   const handleKeyClose = event => {
     if (event.key === 'Escape') {
-      navigation(`/category/${page}`);
+      page ? navigation(`/category/${page}`) : navigation(`/search`);
     }
   };
 
