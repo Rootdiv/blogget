@@ -31,13 +31,13 @@ function* workerPosts() {
       });
     } else {
       yield put({
-        type: `posts/${postsRequestSuccess.name}`,
+        type: 'posts/postsRequestSuccess',
         payload: postsRequestSuccess(page, counter, data.data),
       });
     }
   } else {
     yield put({
-      type: `posts/${postsRequestError.name}`,
+      type: 'posts/postsRequestError',
       payload: postsRequestError(message),
     });
   }

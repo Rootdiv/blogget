@@ -1,11 +1,11 @@
 import { put, select, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
 import { URL_API } from 'api/const';
-import { COMMENTS_REQUEST, commentsRequestSuccess, commentsRequestError, commentsRequest } from './commentsAction';
+import { COMMENTS_REQUEST, commentsRequestSuccess, commentsRequestError } from './commentsAction';
 
 function* fetchComments({ id }) {
   yield put({
-    type: `comments/${commentsRequest.name}`,
+    type: 'comments/commentsRequest',
   });
   const token = yield select(state => state.tokenReducer.token);
   try {
@@ -26,12 +26,12 @@ function* fetchComments({ id }) {
     ] } = request;
     const comments = children.map(item => item.data);
     yield put({
-      type: `comments/${commentsRequestSuccess.name}`,
+      type: 'comments/commentsRequestSuccess',
       payload: commentsRequestSuccess({ post, comments })
     });
   } catch (err) {
     yield put({
-      type: `comments/${commentsRequestError.name}`,
+      type: 'comments/commentsRequestError',
       payload: commentsRequestError(err.toString()),
     });
   }
