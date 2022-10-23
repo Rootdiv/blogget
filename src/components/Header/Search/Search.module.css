@@ -7,6 +7,8 @@
   border-radius: 8px;
   padding: 5px;
   width: 100%;
+  outline-offset: unset;
+  border-color: var(--greyE6);
 }
 
 .search::-webkit-search-cancel-button {
